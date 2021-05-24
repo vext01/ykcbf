@@ -2,7 +2,7 @@
 
 set -e
 
-make bf_base
+CFLAGS="-O3" make bf_base
 
 export CARGO_HOME="`pwd`/.cargo"
 export RUSTUP_HOME="`pwd`/.rustup"
@@ -37,7 +37,7 @@ YK_INST_DIR=`pwd`/target/debug/
 cd ..
 
 LDFLAGS="-L$YK_INST_DIR -Wl,-rpath=$YK_INST_DIR" \
-  CPPFLAGS=-I`pwd`/yk/ykcapi \
+  CFLAGS="-I`pwd`/yk/ykcapi -O3" \
   make bf_simple_yk
 
 cd lang_tests && cargo test
