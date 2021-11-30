@@ -2,8 +2,6 @@
 
 set -e
 
-CFLAGS="-O3" make bf_base
-
 export CARGO_HOME="`pwd`/.cargo"
 export RUSTUP_HOME="`pwd`/.rustup"
 
@@ -29,13 +27,14 @@ make -j `nproc` install
 export PATH=`pwd`/../inst/bin:${PATH}
 cd ../..
 
+
 git clone https://github.com/softdevteam/yk/
 cd yk && cargo build
 YK_INST_DIR=`pwd`/target/debug/
 cd ..
 
-LDFLAGS="-L$YK_INST_DIR -Wl,-rpath=$YK_INST_DIR" \
-  CFLAGS="-I`pwd`/yk/ykcapi -O3" \
-  make bf_simple_yk
+CFLAGS="-O3" make bf_base
+YK_DIR=`pwd`/yk CFLAGS=-O3 make bf_simple_yk
+YK_DIR=`pwd`/yk CFLAGS=-O3 make bf_simple2_yk
 
 cd lang_tests && cargo test
